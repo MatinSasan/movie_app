@@ -1,24 +1,26 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useEffect, useState } from 'react';
 import './App.css';
 
+import Movie from './components/Movie';
+
+import { APIURL, IMGPATH, SEARCHAPI } from './config';
+
 function App() {
+  const [movies, setMovies] = useState([]);
+
+  const getMovies = async () => {
+    const moviesRep = await fetch(APIURL);
+    const _movies = await moviesRep.json();
+    setMovies(_movies.results);
+  };
+
+  useEffect(() => {
+    getMovies();
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      {movies.length > 0 && movies.map(movie => <Movie key={movie.id} />)}
     </div>
   );
 }
