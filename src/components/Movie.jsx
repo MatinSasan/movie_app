@@ -1,13 +1,26 @@
 import React from 'react';
 
-import { IMGPATH } from '../config.js';
+import { IMGPATH, unSplashFreeImage } from '../config.js';
+
+const setVoteClass = vote => {
+  if (vote >= 8) {
+    return 'green';
+  } else if (vote >= 6) {
+    return 'orange';
+  } else {
+    return 'red';
+  }
+};
 
 const Movie = ({ title, poster_path, overview, vote_average }) => (
   <div className='movie'>
-    <img src={IMGPATH + poster_path} alt={title} />
+    <img
+      src={poster_path ? IMGPATH + poster_path : unSplashFreeImage}
+      alt={title}
+    />
     <div className='movie-info'>
       <h3>{title}</h3>
-      <span>{vote_average}</span>
+      <span className={`${setVoteClass(vote_average)}`}>{vote_average}</span>
     </div>
     <div className='movie-over'>
       <h2>Overview:</h2>
